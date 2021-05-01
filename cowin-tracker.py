@@ -13,7 +13,7 @@ base = datetime.datetime.today()
 date_str = base.strftime("%d-%m-%Y")
 
 #use this to setup alerts on phone https://betterprogramming.pub/how-to-send-push-notifications-to-your-phone-from-any-script-6b70e34748f6
-urlNotif = 'https://maker.ifttt.com/trigger/notify/with/key/<key>'
+#urlNotif = 'https://maker.ifttt.com/trigger/notify/with/key/d4XdotM5gAlYHatbEqyRMXdiTPVP-2BFAzRTrK7jr3q'
 
 for dist in DIST_ID:
     print(dist)
@@ -30,6 +30,6 @@ for dist in DIST_ID:
                         print( Message )
                         if( session["available_capacity"] > 0 ):
                             print("Available", Message)
-                            myobj = {"value1":Message}
-                            notif = requests.post(urlNotif, data = myobj)
+                            #myobj = {"value1":Message}
+                            #notif = requests.post(urlNotif, data = myobj)
                             #print(notif.text)
