@@ -10,28 +10,30 @@ import pandas as pd
 #    for i in json_data["districts"]:
 #        print(i["district_id"],'\t', i["district_name"])
 #    print("\n")
-DIST_ID = 663
-print_flag = 'n'
+
+DIST_ID = [664,663]
+#663 	 Kanpur Dehat
+#664 	 Kanpur Nagar
 Age = 18
 
 base = datetime.datetime.today()
-date_list = [base + datetime.timedelta(days=x) for x in range(1)]
-date_str = [x.strftime("%d-%m-%Y") for x in date_list]
-print(date_str)
+date_str = base.strftime("%d-%m-%Y")
 
-for INP_DATE in date_str:
-    URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id={}&date={}".format(DIST_ID, INP_DATE)
+#print(json.dumps(resp_json, indent = 1))
+
+for dist in DIST_ID:
+    print(dist)
+    URL = "https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByDistrict?district_id={}&date={}".format(dist, date_str)
     response = requests.get(URL)
     if response.ok:
         resp_json = response.json()
         if resp_json["centers"] :
             for center in resp_json["centers"]:
-                print( center["name"] )
                 for session in center["sessions"]:
+                    #print( session["date"] ,center["name"] + ":", session["available_capacity"] )
                     if( session["min_age_limit"] == 18 ):
-                        print( session["available_capacity"] )
-            print("You can book vaccine slots on {}".format(INP_DATE))
-            if(print_flag=='y' or print_flag=='Y'):
-                print(json.dumps(resp_json, indent = 1))
+                        print( session["date"] ,center["name"] + ":", session["available_capacity"] )
+                        if( session["available_capacity"] > 0 ):
+                            print("You can book vaccine slots on {}".format(date_str))
         else:
-            print("No available slots on {}".format(INP_DATE))
+            print("No available slots on {}".format(date_str))
